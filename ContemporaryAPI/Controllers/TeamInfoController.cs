@@ -16,17 +16,15 @@ namespace ContemporaryAPI.Controllers
             _context = context;
         }
 
-        // GET: api/TeamInfo
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeamInfo>>> GetTeamInfos()
+        // GET: api/TeamInfo/5 Returns first 5 if Null or 0
+        [HttpGet("{id?}")]
+        public async Task<ActionResult<IEnumerable<TeamInfo>>> GetTeamInfo(int? id)
         {
-            return await _context.TeamInfos.ToListAsync();
-        }
+            if (id == null || id == 0)
+            {
+                return await _context.TeamInfos.Take(5).ToListAsync();
+            }
 
-        // GET: api/TeamInfo/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TeamInfo>> GetTeamInfo(int id)
-        {
             var teamInfo = await _context.TeamInfos.FindAsync(id);
 
             if (teamInfo == null)
@@ -34,7 +32,7 @@ namespace ContemporaryAPI.Controllers
                 return NotFound();
             }
 
-            return teamInfo;
+            return Ok(teamInfo);
         }
 
         // POST: api/TeamInfo

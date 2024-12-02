@@ -4,7 +4,6 @@ using ContemporaryAPI.Data;
 using ContemporaryAPI.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 
 namespace ContemporaryAPI.Controllers
 {
@@ -19,25 +18,24 @@ namespace ContemporaryAPI.Controllers
             _context = context;
         }
 
-        // GET: api/bookgenres
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookGenres>>> GetBookGenres()
+        // GET: api/bookgenres/{id} Returns first 5 if id is null or 0
+        [HttpGet("{id?}")]
+        public async Task<ActionResult> GetBookGenres(int? id)
         {
-            return await _context.BookGenres.ToListAsync();
-        }
+            if (id == null || id == 0)
+            {
+                var topFiveGenres = await _context.BookGenres.Take(5).ToListAsync();
+                return Ok(topFiveGenres);
+            }
 
-        // GET: api/bookgenres/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BookGenres>> GetBookGenre(int id)
-        {
-            var bookGenre = await _context.BookGenres.FindAsync(id);
+            var bookGenres = await _context.BookGenres.FindAsync(id);
 
-            if (bookGenre == null)
+            if (bookGenres == null)
             {
                 return NotFound();
             }
 
-            return bookGenre;
+            return Ok(bookGenres);
         }
 
         // POST: api/bookgenres
@@ -47,7 +45,7 @@ namespace ContemporaryAPI.Controllers
             _context.BookGenres.Add(bookGenres);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBookGenre), new { id = bookGenres.Id }, bookGenres);
+            return CreatedAtAction(nameof(GetBookGenres), new { id = bookGenres.Id }, bookGenres);
         }
 
         // PUT: api/bookgenres/{id}
@@ -60,7 +58,22 @@ namespace ContemporaryAPI.Controllers
             }
 
             _context.Entry(bookGenres).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BookGenresExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
@@ -79,6 +92,11 @@ namespace ContemporaryAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private bool BookGenresExists(int id)
+        {
+            return _context.BookGenres.Any(e => e.Id == id);
         }
     }
 }
