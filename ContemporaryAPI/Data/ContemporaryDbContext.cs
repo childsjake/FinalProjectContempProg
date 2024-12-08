@@ -12,5 +12,7 @@ namespace ContemporaryAPI.Data
 
         public DbSet<BookGenres> BookGenres { get; set; }
 
+        public DbSet<FavAnimals> FavAnimals { get; set; }
+
     }
 }
