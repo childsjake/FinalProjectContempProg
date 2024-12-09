@@ -45,7 +45,7 @@ namespace ContemporaryAPI.Controllers
             return CreatedAtAction(nameof(GetFavAnimals), new { id = favAnimals.Id }, favAnimals);
         }
 
-        //PUT: api/bookgenres/{id}
+        //PUT: api/FavAnimals/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFavAnimals(int id, FavAnimals favAnimals)
         {
