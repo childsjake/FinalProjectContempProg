@@ -75,7 +75,7 @@ namespace ContemporaryAPI.Controllers
             return NoContent();
         }
 
-        //DELETE: api/FavAnimal/{id}
+        //DELETE: api/FavAnimals/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFavAnimal(int id)
         {

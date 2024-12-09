@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContemporaryAPI.Migrations
 {
     [DbContext(typeof(ContemporaryDbContext))]
-    [Migration("20241208213732_CreateFavAnimals")]
-    partial class CreateFavAnimals
+    [Migration("20241208213732_AddFavAnimals")]
+    partial class AddFavAnimals
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

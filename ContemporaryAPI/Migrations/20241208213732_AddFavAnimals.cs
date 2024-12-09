@@ -5,7 +5,7 @@
 namespace ContemporaryAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateFavAnimals : Migration
+    public partial class AddFavAnimals : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
