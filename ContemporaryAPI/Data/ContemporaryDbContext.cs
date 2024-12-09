@@ -14,5 +14,7 @@ namespace ContemporaryAPI.Data
 
         public DbSet<FavAnimals> FavAnimals { get; set; }
 
+        public DbSet<Movies> Movies { get; set; }
+
     }
 }
